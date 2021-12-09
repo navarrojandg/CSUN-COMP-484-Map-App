@@ -83,11 +83,13 @@ function drawCorrectRectangle(bounds) {
 }
 
 function drawIncorrectRectangle(bounds) {
+  const shadesOfRed = ["#ff0000", "#FFA500", "#954535", "#e0115f", "#AA336A"];
+  const color = shadesOfRed[totalIncorrect % shadesOfRed.length];
   const rect = new google.maps.Rectangle({
-    strokeColor: "#FF0000",
+    strokeColor: color,
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: "#FF0000",
+    fillColor: color,
     fillOpacity: 0.35,
     map,
     bounds,
@@ -552,6 +554,7 @@ function startQuiz() {
 
   window.totalQuestions = questions.length;
   window.totalCorrect = 0;
+  window.totalIncorrect = 0;
 
   $("#quiz").on("question", (e, question) => {
     if (!question) {
@@ -563,17 +566,16 @@ function startQuiz() {
     window.listener = addDoubleClickListener(({ latLng }) => {
       addMarker({ latLng });
       const correct = question.bounds.contains(latLng);
-      $(e.currentTarget).append(
-        `<div class="result ${correct ? "correct" : "incorrect"}">${
-          correct ? "Correct" : "Incorrect"
-        }!</div>`
-      );
-
       if (correct) {
         drawCorrectRectangle(question.bounds);
+        $(e.currentTarget).append(`<div class="result correct">Correct!</div>`);
         totalCorrect++;
       } else {
         drawIncorrectRectangle(question.bounds);
+        $(e.currentTarget).append(
+          `<div class="result incorrect${totalIncorrect}">Incorrect!</div>`
+        );
+        totalIncorrect++;
       }
 
       removeDoubleClickListener();

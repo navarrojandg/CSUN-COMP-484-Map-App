@@ -56,8 +56,24 @@ body {
   color: #00ff00;
 }
 
-.result.incorrect {
+.result.incorrect0 {
   color: #ff0000;
+}
+
+.result.incorrect1 {
+  color: #ffa500;
+}
+
+.result.incorrect2 {
+  color: #954535;
+}
+
+.result.incorrect3 {
+  color: #e0115f;
+}
+
+.result.incorrect4 {
+  color: #aa336a;
 }
 
 #map {
