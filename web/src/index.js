@@ -531,12 +531,14 @@ function createQuestions(count) {
   let questions = [];
   questions = [...assignedLocations];
 
-  // loop 4 times
+  // Loop 4 times
   for (let i = 0; i < count - 1; i++) {
     let randomIndex = Math.floor(Math.random() * window.randomLocations.length);
     let [randomLocation] = window.randomLocations.splice(randomIndex, 1);
     questions.push(randomLocation);
   }
+  // Reset once we are done picking random locations
+  window.randomLocations = createRandomLocations();
   return questions;
 }
 
