@@ -18,10 +18,10 @@ window.initMap = function () {
 document.head.appendChild(googleMapsApiScript);
 
 // Our main entry point
-// This is where we will load everything
 function main() {
   // Markers are where the user clicks
   window.markers = [];
+
   // Drawings are where the rectangles are drawn
   window.drawings = [];
 
@@ -29,57 +29,8 @@ function main() {
   window.assignedLocations = createAssignedLocations();
   window.randomLocations = createRandomLocations();
 
-  // Initialize and style the map
-  window.map = new google.maps.Map(document.getElementById("map"), {
-    center: new google.maps.LatLng(34.2400695486868, -118.52931715944784),
-    zoom: 11,
-    restriction: {
-      latLngBounds: new google.maps.LatLngBounds(
-        new google.maps.LatLng(34.235407371515194, -118.53399198855638),
-        new google.maps.LatLng(34.24488087222004, -118.5232104128073)
-      ),
-      strictBounds: true,
-    },
-    mapTypeControl: false,
-    streetViewControl: false,
-    rotateControl: false,
-    disableDoubleClickZoom: true,
-  });
-
-  const styles = [
-    {
-      featureType: "administrative",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "landscape",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "poi",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "road",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "transit",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "water",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-  ];
-
-  map.setOptions({ styles });
+  // Initialize map
+  window.map = createMap();
 
   $("#startQuiz").click(startQuiz);
   $("#resetQuiz").click(resetQuiz);
@@ -192,6 +143,13 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Art and Design Center",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24296395777599, -118.53030827307114),
+        new google.maps.LatLng(34.2442064493929, -118.52938819408588)
+      ),
+    },
+    {
       name: "Bayramian Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.239908581113546, -118.5314578777683),
@@ -213,10 +171,31 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Charles H. Noski Auditorium",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24210792480264, -118.5314323324061),
+        new google.maps.LatLng(34.24236215693092, -118.53113200577376)
+      ),
+    },
+    {
+      name: "Child and Family Studies Lab School",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24381929256342, -118.53369152058296),
+        new google.maps.LatLng(34.24438599446837, -118.53279852531952)
+      ),
+    },
+    {
       name: "Citrus Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.23881951845458, -118.52891344613),
         new google.maps.LatLng(34.239156237227995, -118.52744674148214)
+      ),
+    },
+    {
+      name: "CSUN Art Galleries",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24294370895278, -118.52975613992783),
+        new google.maps.LatLng(34.243551058329786, -118.5293551062637)
       ),
     },
     {
@@ -234,10 +213,24 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "CSUN Children's Center",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24293568672043, -118.53360131122689),
+        new google.maps.LatLng(34.24353967472043, -118.53304657962535)
+      ),
+    },
+    {
       name: "CSUN Duck Pond",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.23647143135077, -118.52643344700974),
         new google.maps.LatLng(34.23719351027536, -118.52575635535523)
+      ),
+    },
+    {
+      name: "CSUN Food Pantry",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24227497623127, -118.52911353038603),
+        new google.maps.LatLng(34.24242223461462, -118.52884633196187)
       ),
     },
     {
@@ -269,10 +262,31 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Education Administration",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24158302999579, -118.53159515978703),
+        new google.maps.LatLng(34.24204922678605, -118.53123722923671)
+      ),
+    },
+    {
       name: "Eucalyptus Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.238472829014995, -118.5289203197883),
         new google.maps.LatLng(34.23880350548117, -118.52744791002961)
+      ),
+    },
+    {
+      name: "Extended University Commons",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24048483350348, -118.53351473908752),
+        new google.maps.LatLng(34.24073594200433, -118.53251241683157)
+      ),
+    },
+    {
+      name: "Grand Salon",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.239180392073834, -118.5272961466891),
+        new google.maps.LatLng(34.23973753804377, -118.52667662048083)
       ),
     },
     {
@@ -290,6 +304,13 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Lilac Hall",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24238771251823, -118.52973978389429),
+        new google.maps.LatLng(34.242620107648186, -118.52921095191498)
+      ),
+    },
+    {
       name: "Live Oak Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.23814369975453, -118.52891782860493),
@@ -304,10 +325,38 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Matador Hall",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24339704817145, -118.52811021203316),
+        new google.maps.LatLng(34.24381193649587, -118.52779421194496)
+      ),
+    },
+    {
+      name: "Matador Softball Field",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.243851205681814, -118.52577884626716),
+        new google.maps.LatLng(34.24488111717699, -118.52479348027225)
+      ),
+    },
+    {
+      name: "Matador Tennis Complex",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24362382469471, -118.52461248560961),
+        new google.maps.LatLng(34.244642561774654, -118.52339223648522)
+      ),
+    },
+    {
       name: "Manzanita Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.236864570264544, -118.53057866608773),
         new google.maps.LatLng(34.23783384968837, -118.52947758896543)
+      ),
+    },
+    {
+      name: "Michael D. Eisner College of Education",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.2410274279355, -118.53143292496924),
+        new google.maps.LatLng(34.24155323322318, -118.53044925363044)
       ),
     },
     {
@@ -318,6 +367,13 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "National Center On Deafness (NCOD)",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.23738423681827, -118.52632533682),
+        new google.maps.LatLng(34.23778740072459, -118.52584549486456)
+      ),
+    },
+    {
       name: "Nordhoff Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.235976950331406, -118.53096040179103),
@@ -325,10 +381,31 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "North Field",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24277441226419, -118.52724309083156),
+        new google.maps.LatLng(34.243713743132574, -118.52471734582986)
+      ),
+    },
+    {
+      name: "Oasis Wellness Center",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.239436280155466, -118.5258142353967),
+        new google.maps.LatLng(34.23971163404376, -118.52528898544783)
+      ),
+    },
+    {
       name: "Redwood Hall",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.24128055035257, -118.52728294837203),
         new google.maps.LatLng(34.242526397337684, -118.52535115278131)
+      ),
+    },
+    {
+      name: "Sagebrush Hall",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.24241763322411, -118.52878509856652),
+        new google.maps.LatLng(34.24261551080856, -118.52827018274087)
       ),
     },
     {
@@ -360,6 +437,13 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "Sierra Tower",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.23844023936151, -118.53030507604058),
+        new google.maps.LatLng(34.23910343244234, -118.5301213468547)
+      ),
+    },
+    {
       name: "Student Recreation Center",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.23925075841574, -118.52522425796396),
@@ -374,6 +458,13 @@ function createRandomLocations() {
       ),
     },
     {
+      name: "University Hall",
+      bounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.23919172874835, -118.53241114274132),
+        new google.maps.LatLng(34.24027561395158, -118.53182900660379)
+      ),
+    },
+    {
       name: "University Student Union",
       bounds: new google.maps.LatLngBounds(
         new google.maps.LatLng(34.23977382999084, -118.52728907808333),
@@ -381,6 +472,57 @@ function createRandomLocations() {
       ),
     },
   ];
+}
+
+function createMap() {
+  return new google.maps.Map(document.getElementById("map"), {
+    center: new google.maps.LatLng(34.2400695486868, -118.52931715944784),
+    zoom: 11,
+    restriction: {
+      latLngBounds: new google.maps.LatLngBounds(
+        new google.maps.LatLng(34.235407371515194, -118.53399198855638),
+        new google.maps.LatLng(34.24488087222004, -118.5232104128073)
+      ),
+      strictBounds: true,
+    },
+    mapTypeControl: false,
+    streetViewControl: false,
+    rotateControl: false,
+    disableDoubleClickZoom: true,
+    fullscreenControl: false,
+    styles: [
+      {
+        featureType: "administrative",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "landscape",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "water",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
+  });
 }
 
 function createQuestions(count) {
