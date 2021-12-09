@@ -6,7 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Map App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="dist/bundle.js"></script>
+    <link
+      rel="stylesheet"
+      src="https://fonts.googleapis.com/css?family=Roboto"
+    />
     <link rel="stylesheet" href="index.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="container-map">
+        <div id="map"></div>
+        <div class="container-btns">
+          <button type="button" id="startQuiz" class="btn start">
+            Start Quiz
+          </button>
+          <button type="button" id="resetQuiz" class="btn reset">
+            Reset Quiz
+          </button>
+        </div>
+      </div>
+      <div class="container-quiz">
+        <div class="title">CSUN Map Quiz</div>
+        <div id="quiz"></div>
+      </div>
+    </div>
+  </body>
 </html>
